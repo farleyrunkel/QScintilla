@@ -55,6 +55,7 @@
 class QAction;
 class QMenu;
 class QsciScintilla;
+class QsciLexerPython;
 
 class MainWindow : public QMainWindow
 {
@@ -88,6 +89,8 @@ private:
     QString strippedName(const QString &fullFileName);
 
     QsciScintilla *textEdit;
+    QsciLexerPython *lexer;
+
     QString curFile;
 
     QMenu *fileMenu;
@@ -105,6 +108,7 @@ private:
     QAction *pasteAct;
     QAction *aboutAct;
     QAction *aboutQtAct;
+    void setupLexer(QsciScintilla *editor);
 };
 
 #endif

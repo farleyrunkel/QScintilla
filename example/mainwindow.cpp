@@ -66,13 +66,17 @@
 #include <QToolBar>
 
 #include <Qsci/qsciscintilla.h>
+#include <Qsci/QsciLexerPython.h>
 
 #include "mainwindow.h"
 
 MainWindow::MainWindow()
 {
     textEdit = new QsciScintilla;
+
     setCentralWidget(textEdit);
+
+    setupLexer(textEdit);
 
     createActions();
     createMenus();
@@ -95,6 +99,30 @@ void MainWindow::closeEvent(QCloseEvent *event)
     } else {
         event->ignore();
     }
+}
+
+void MainWindow::setupLexer(QsciScintilla* editor) {
+    // Set the lexer to Python
+    lexer = new QsciLexerPython();
+    editor->setLexer(lexer);
+
+    // Set the font
+    QFont font = lexer->font(1);
+    font.setPointSize(12);
+    editor->setFont(font);
+    editor->setMarginsFont(font);
+
+    // Margin 0 is used for line numbers
+    editor->setMarginType(0, QsciScintilla::NumberMargin);
+    editor->setMarginWidth(0, "0000");
+    editor->setMarginsBackgroundColor("#cccccc");
+
+    // Brace matching
+    editor->setBraceMatching(QsciScintilla::SloppyBraceMatch);
+
+    // Current line visible with special background color
+    editor->setCaretLineVisible(true);
+    editor->setCaretLineBackgroundColor("#ffe4e4");
 }
 
 void MainWindow::newFile()
