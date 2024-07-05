@@ -65,10 +65,7 @@ target_link_libraries(${TARGET_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${
 # Compile definitions
 target_compile_definitions(${TARGET_NAME} PRIVATE QSCINTILLA_MAKE_DLL)
 
-# Install path
-if(NOT CMAKE_INSTALL_PREFIX)
-    set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Install path" FORCE)
-endif()
+set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Install path" FORCE)
 
 # Install targets
 install(TARGETS ${TARGET_NAME}

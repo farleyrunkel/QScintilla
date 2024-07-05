@@ -101,14 +101,26 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 }
 
+
 void MainWindow::setupLexer(QsciScintilla* editor) {
+    QFont font;
+    font.setStyleHint( QFont::Monospace );
+    font.setPointSize( 10 );
+
     // Set the lexer to Python
     lexer = new QsciLexerPython();
+    lexer->setDefaultFont( font );
+    lexer->setFont( font, 1 ); // comment
+    lexer->setFont( font, 3 ); // singlequotes
+    lexer->setFont( font, 4 ); // doublequotes
+    lexer->setFont( font, 6 ); // triplequotes
+    lexer->setColor( Qt::red, 1 ); // comment color
+    lexer->setColor( Qt::darkGreen, 5 ); // keyword color
+    lexer->setColor( Qt::darkBlue, 15 ); // decorator color
+
+
     editor->setLexer(lexer);
 
-    // Set the font
-    QFont font = lexer->font(1);
-    font.setPointSize(12);
     editor->setFont(font);
     editor->setMarginsFont(font);
 
