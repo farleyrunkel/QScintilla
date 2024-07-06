@@ -47,6 +47,8 @@
 ** $QT_END_LICENSE$
 ****************************************************************************/
 
+#include "mainwindow.h"
+
 #include <QAction>
 #include <QApplication>
 
@@ -68,51 +70,82 @@
 #include <Qsci/qsciscintilla.h>
 #include <Qsci/QsciLexerPython.h>
 
-#include "mainwindow.h"
+// Initialize the static Config instance
+Config MainWindow::config;
 
 MainWindow::MainWindow()
 {
     setupMainUi();
 
-    connect(textEdit, SIGNAL(textChanged()),
-            this, SLOT(documentWasModified()));
+    // connect(textEdit, SIGNAL(textChanged()),
+    //         this, SLOT(documentWasModified()));
 
-    setCurrentFile("");
+    // setCurrentFile("");
 }
 
 void MainWindow::setupMainUi() {
 
-    textEdit = new QsciScintilla;
-
-   // m_documents = new QTabWidget;
-    // m_documents->setDocumentMode(true);
-    // m_documents->setTabsClosable(true);
-    // m_documents->setContentsMargins(0, 0, 0, 0);
-    // // connect(m_documents, SIGNAL(tabCloseRequested(int)), SLOT(closeTab(int)));
-    // connect(m_documents, &QTabWidget::currentChanged, [=](int idx) {
-    //     QsciScintilla *doc = gettextEdit(idx);
-    //     setWindowModified(doc->isModified());
-    //     setWindowTitle(tr("%1[*]").arg(m_documents->tabText(idx)));
-    //     menuBar()->update();
-    // });
-    // m_documents->setTabPosition(QTabWidget::West);
-    // m_documents->setTabBarAutoHide(true);
-    setCentralWidget(textEdit);
-
-    setupLexer(textEdit);
-
-    createActions();
-    createMenus();
-    createToolBars();
-    createStatusBar();
-
+    setStatusBar(nullptr); // useless waste of screen estate
     readSettings();
+    // config.changed = false;
+
+   m_documents = new QTabWidget;
+    m_documents->setDocumentMode(true);
+    m_documents->setTabsClosable(true);
+    m_documents->setContentsMargins(0, 0, 0, 0);
+    // connect(m_documents, SIGNAL(tabCloseRequested(int)), SLOT(closeTab(int)));
+    connect(m_documents, &QTabWidget::currentChanged, [=](int idx) {
+        QsciScintilla *doc = gettextEdit(idx);
+        setWindowModified(doc->isModified());
+        setWindowTitle(tr("%1[*]").arg(m_documents->tabText(idx)));
+        menuBar()->update();
+        // indicateCurrentSyntax();
+        // indicateCurrentEOL();
+        // m_EolVis->setChecked(doc->eolVisibility());
+        // m_wrapped->setChecked(doc->wrapMode() != QsciScintilla::WrapNone);
+        // m_folds->setChecked(doc->folding() != QsciScintilla::NoFoldStyle);
+        // checkTimestamp();
+    });
+    m_documents->setTabPosition(QTabWidget::West);
+    m_documents->setTabBarAutoHide(true);
+    setCentralWidget(m_documents);
+    updatePalette();
+
+
+    // createActions();
+    // createMenus();
+    // createToolBars();
+    // createStatusBar();
+
 }
 
+void MainWindow::updatePalette()
+{
+    // todo: update syntax lexers w/ new palette
+    // for (int syntax = Syntax::Auto + 1; syntax < Syntax::Count; ++syntax)
+    //     setSyntax(static_cast<Syntax>(syntax), nullptr, true); // updateColorsOnly
+    for (int i = 0; i < m_documents->count(); ++i) {
+        QsciScintilla *doc = gettextEdit(i);
+        doc->setIndentationsUseTabs(config.tabIsTab());
+        doc->setTabWidth(config.tabWidth());
+        int syntax = doc->property("sqriptor_syntax").toInt();
+        setSyntax(static_cast<Syntax>(syntax), doc);
+        doc->setMarginsFont(config.font());
+        doc->setMarginWidth(0, "14444");
+    }
+    QPalette pal = palette(); // qApp->palette();
+    pal.setColor(QPalette::Window, config.color()->bg());
+    pal.setColor(QPalette::Base,  config.color()->bg());
+    pal.setColor(QPalette::Button,  config.color()->bg());
+    pal.setColor(QPalette::WindowText,  config.color()->bg());
+    pal.setColor(QPalette::Text,  config.color()->bg());
+    pal.setColor(QPalette::ButtonText,  config.color()->bg());
+    setPalette(pal);
+}
 QsciScintilla *MainWindow::gettextEdit(int idx) const
 {
     Q_ASSERT(idx < m_documents->count());
-    return dynamic_cast<QsciScintilla*>(idx < 0 ? m_documents->currentWidget() : m_documents->widget(idx));
+    return static_cast<QsciScintilla*>(idx < 0 ? m_documents->currentWidget() : m_documents->widget(idx));
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

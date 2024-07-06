@@ -57,6 +57,8 @@ class QMenu;
 class QsciScintilla;
 class QsciLexerPython;
 
+#include "Config.h"
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -112,6 +114,9 @@ private:
     void setupMainUi();
     QTabWidget *m_documents;
     QsciScintilla *gettextEdit(int idx) const;
+    void updatePalette();
+
+    static Config config;
 };
 
 #endif

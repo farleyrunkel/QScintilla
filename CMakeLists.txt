@@ -9,26 +9,14 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(BUILD_EXAMPLE ON)
+set(BUILD_EXAMPLE OFF)
 
 # Find Qt packages
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Gui)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Gui PrintSupport)
-
-# Include directories
-include_directories(
-    ${Qt${QT_VERSION_MAJOR}Core_INCLUDE_DIRS}
-    ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/Qsci
-    ${CMAKE_CURRENT_SOURCE_DIR}/scintilla/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/scintilla/lexlib
-    ${CMAKE_CURRENT_SOURCE_DIR}/scintilla/include
-)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Widgets Gui PrintSupport)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Widgets Gui PrintSupport)
 
 # Add subdirectory
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/src)
-
 
 # Set target name
 if(WIN32)
@@ -55,18 +43,42 @@ if(MACOS)
             INSTALL_NAME_DIR "@rpath"
         )
     endif()
-endif()
+endif() 
 
+# Set include directory
+set(QSCINTILLA_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/src" CACHE PATH "QScintilla include directory")
+
+message(STATUS "QSCINTILLA_INCLUDE_DIRS: ${QSCINTILLA_INCLUDE_DIRS}")
+ 
 # Set library version
 set_target_properties(${TARGET_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 
 # Link libraries
 target_link_libraries(${TARGET_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Gui)
+target_link_libraries(${TARGET_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::PrintSupport)
 
 # Compile definitions
 target_compile_definitions(${TARGET_NAME} PRIVATE QSCINTILLA_MAKE_DLL)
 
-set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Install path" FORCE)
+# Include directories
+target_include_directories(${TARGET_NAME} PRIVATE
+    ${Qt${QT_VERSION_MAJOR}Core_INCLUDE_DIRS}
+    ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
+    ${Qt${QT_VERSION_MAJOR}PrintSupport_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/scintilla/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/scintilla/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/scintilla/lexlib
+)
+
+message(STATUS "Qt${QT_VERSION_MAJOR}Core_INCLUDE_DIRS: ${Qt${QT_VERSION_MAJOR}Core_INCLUDE_DIRS}")
+message(STATUS "Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS: ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}")
+message(STATUS "Qt${QT_VERSION_MAJOR}PrintSupport_INCLUDE_DIRS: ${Qt${QT_VERSION_MAJOR}PrintSupport_INCLUDE_DIRS}")
+
+# Install path
+if(NOT CMAKE_INSTALL_PREFIX)
+    set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Install path" FORCE)
+endif()
 
 # Install targets
 install(TARGETS ${TARGET_NAME}
@@ -77,7 +89,7 @@ install(TARGETS ${TARGET_NAME}
 )
 
 # Install header files
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/Qsci
+install(DIRECTORY ${QSCINTILLA_INCLUDE_DIRS}/Qsci
     DESTINATION include
     FILES_MATCHING PATTERN "*.h"
 )
