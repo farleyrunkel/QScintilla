@@ -47,69 +47,16 @@
 ** $QT_END_LICENSE$
 ****************************************************************************/
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#include <QApplication>
 
-#include <QMainWindow>
+#include "mainwindow.h"
 
-class QAction;
-class QMenu;
-class QsciScintilla;
-class QsciLexerPython;
-
-class MainWindow : public QMainWindow
+int main(int argc, char *argv[])
 {
-    Q_OBJECT
+    Q_INIT_RESOURCE(application);
 
-public:
-    MainWindow();
-
-protected:
-    void closeEvent(QCloseEvent *event);
-
-private slots:
-    void newFile();
-    void open();
-    bool save();
-    bool saveAs();
-    void about();
-    void documentWasModified();
-
-private:
-    void createActions();
-    void createMenus();
-    void createToolBars();
-    void createStatusBar();
-    void readSettings();
-    void writeSettings();
-    bool maybeSave();
-    void loadFile(const QString &fileName);
-    bool saveFile(const QString &fileName);
-    void setCurrentFile(const QString &fileName);
-    QString strippedName(const QString &fullFileName);
-
-    QsciScintilla *textEdit;
-    QsciLexerPython *lexer;
-
-    QString curFile;
-
-    QMenu *fileMenu;
-    QMenu *editMenu;
-    QMenu *helpMenu;
-    QToolBar *fileToolBar;
-    QToolBar *editToolBar;
-    QAction *newAct;
-    QAction *openAct;
-    QAction *saveAct;
-    QAction *saveAsAct;
-    QAction *exitAct;
-    QAction *cutAct;
-    QAction *copyAct;
-    QAction *pasteAct;
-    QAction *aboutAct;
-    QAction *aboutQtAct;
-    void setupLexer(QsciScintilla *editor);
-
-};
-
-#endif
+    QApplication app(argc, argv);
+    MainWindow mainWin;
+    mainWin.show();
+    return app.exec();
+}

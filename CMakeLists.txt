@@ -20,9 +20,10 @@ include_directories(
     ${Qt${QT_VERSION_MAJOR}Core_INCLUDE_DIRS}
     ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/scintilla/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Qsci
     ${CMAKE_CURRENT_SOURCE_DIR}/scintilla/src
     ${CMAKE_CURRENT_SOURCE_DIR}/scintilla/lexlib
+    ${CMAKE_CURRENT_SOURCE_DIR}/scintilla/include
 )
 
 # Add subdirectory

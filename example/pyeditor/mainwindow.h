@@ -109,7 +109,9 @@ private:
     QAction *aboutAct;
     QAction *aboutQtAct;
     void setupLexer(QsciScintilla *editor);
-
+    void setupMainUi();
+    QTabWidget *m_documents;
+    QsciScintilla *gettextEdit(int idx) const;
 };
 
 #endif

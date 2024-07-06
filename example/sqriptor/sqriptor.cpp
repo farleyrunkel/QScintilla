@@ -75,8 +75,7 @@ Sqriptor::Sqriptor()
     setCentralWidget(m_documents);
     
     updatePalette();
-    
-    createUI();
+
     connect(qApp, &QApplication::focusChanged, [=](QWidget *old, QWidget *now) {
         Q_UNUSED(old)
         if (now == m_documents->currentWidget())
@@ -88,7 +87,7 @@ Sqriptor::Sqriptor()
 QsciScintilla *Sqriptor::textEdit(int idx) const
 {
     Q_ASSERT(idx < m_documents->count());
-    return qobject_cast<QsciScintilla*>(idx < 0 ? m_documents->currentWidget() : m_documents->widget(idx));
+    return dynamic_cast<QsciScintilla*>(idx < 0 ? m_documents->currentWidget() : m_documents->widget(idx));
 }
 
 void Sqriptor::closeEvent(QCloseEvent *event)
@@ -105,7 +104,7 @@ void Sqriptor::closeEvent(QCloseEvent *event)
 
 void Sqriptor::analyzeSyntaxOnce()
 {
-    QsciScintilla *doc = qobject_cast<QsciScintilla*>(sender());
+    QsciScintilla *doc = dynamic_cast<QsciScintilla*>(sender());
     if (!doc)
         return;
     if (doc->property("sqriptor_syntax").toInt() == Syntax::None) {
@@ -163,7 +162,7 @@ protected:
             if (other == Qt::Key_unknown)
                 return false;
 
-            QsciScintilla *doc = qobject_cast<QsciScintilla*>(obj);
+            QsciScintilla *doc = dynamic_cast<QsciScintilla*>(obj);
             QString text = doc->selectedText();
             if (text.isEmpty())
                 return false;

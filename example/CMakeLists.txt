@@ -1,2 +1,2 @@
 
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/editor)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/sqriptor)

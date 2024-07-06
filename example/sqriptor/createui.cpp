@@ -141,7 +141,7 @@ void Sqriptor::createUI()
     });
     addAction(act);
 
-    menu = menuBar()->addMenu("Ξ"); // ◎ (·) ⬤ Ξ • · ◉ ▣ ■ □ ▢ ◯ ◆ ★ •  
+    menu = menuBar()->addMenu("Ξ"); // ◎ (·) ⬤ Ξ • · ◉ ▣ ■ □ ▢ ◯ ◆ ★ •
     m_tabMenu = menu->menuAction();
     m_tabMenu->setVisible(false);
     connect(menu, &QMenu::aboutToShow, [=]() {
@@ -155,7 +155,7 @@ void Sqriptor::createUI()
             menu->addAction(a);
         }
     });
-    
+
     // FILE
     menu = menuBar()->addMenu(tr("&File"));
 
@@ -197,7 +197,7 @@ void Sqriptor::createUI()
             open(name);
     });
     ADD_ACT
-    
+
     QMenu *lastWeek = menu->addMenu(tr("&Last Night on Sqriptor"));
     connect(lastWeek, &QMenu::aboutToShow, [=]() {
         lastWeek->clear();
@@ -214,7 +214,7 @@ void Sqriptor::createUI()
         connect(act2, &QAction::triggered, [=]() { config.recentFiles.clear(); });
     });
     connect(menu, &QMenu::aboutToShow, [=]() { lastWeek->setEnabled(!config.recentFiles.isEmpty()); });
-    
+
     act = new QAction(tr("&Close..."), this);
     act->setShortcut(tr("Ctrl+W"));
     connect(act, SIGNAL(triggered()), SLOT(closeTab()));
@@ -230,7 +230,7 @@ void Sqriptor::createUI()
     ADD_ACT
 
     menu->addSeparator();
-    
+
     act = new QAction(tr("E&xit"), this);
     act->setShortcut(tr("Ctrl+Q"));
     connect(act, SIGNAL(triggered()), SLOT(close()));
@@ -294,7 +294,7 @@ void Sqriptor::createUI()
     showFilterContext->setChecked(false);
     showFilterContext->setVisible(false);
     btn->setMenu(tbmenu);
-    
+
     static bool menuWasVisible = true;
     act = new QAction(searchBar);
     act->setShortcut(Qt::Key_Escape);
@@ -332,7 +332,7 @@ void Sqriptor::createUI()
             findLine->setPalette(pal);
         }
     };
-    
+
     connect(findLine, &QLineEdit::returnPressed, [=]() {
         l_search(false);
         findAll(findLine->text(), searchRegExp->isChecked(), searchCaseSens->isChecked(), searchWord->isChecked());
@@ -353,7 +353,7 @@ void Sqriptor::createUI()
         textEdit()->replace(replaceLine->text());
         l_search(false);
     });
-    
+
     connect(replaceAll, &QAction::triggered, [=]() {
         const QString text = findLine->text();
         if (text.isEmpty())
@@ -387,10 +387,10 @@ void Sqriptor::createUI()
         }
         doc->endUndoAction();
     });
-    
+
     m_filterLine = new QLineEdit(searchBar);
     m_filterLine->installEventFilter(navHelper);
-    
+
     /*  "cooperative multithreeading" effort
         filtering a looooooong document (100.000 lines etc.) can take a while
         and we need to manage that
@@ -515,7 +515,7 @@ void Sqriptor::createUI()
     connect(gotoLine, &QSpinBox::editingFinished, [=]() {
         textEdit()->setFocus();
     });
-    
+
     QHBoxLayout *layout = new QHBoxLayout(searchBar);
     layout->setContentsMargins(0,0,0,0);
     layout->addWidget(gotoLine);
@@ -528,14 +528,14 @@ void Sqriptor::createUI()
     m_filterLine->hide();
 
     menuBar()->setCornerWidget(searchBar);
-    
+
 #define HIDE_STUFF  searchBar->hide(); gotoLine->hide(); findLine->hide(); m_filterLine->hide();\
                     replaceLine->hide(); btn->hide(); findAllAct->setVisible(false); \
                     replaceAll->setVisible(false); showFilterContext->setVisible(false); \
                     filterInvert->setVisible(false); searchWord->setVisible(false); \
                     searchForward->setVisible(false); navHelper->allowTab = false;
 #define SHOW_STUFF menuWasVisible = menuBar()->isVisible(); searchBar->show(); menuBar()->show();
-    
+
     menu = editMenu->addMenu(tr("&Search and replace"));
     act = new QAction(tr("&Find"), this);
     act->setShortcut(tr("Ctrl+F"));
@@ -555,7 +555,7 @@ void Sqriptor::createUI()
         SHOW_STUFF
     });
     ADD_ACT
-    
+
     act = new QAction(tr("&Replace"), this);
     act->setShortcut(tr("Ctrl+R"));
     connect(act, &QAction::triggered, [=]() {
@@ -579,7 +579,7 @@ void Sqriptor::createUI()
         SHOW_STUFF
     });
     ADD_ACT
-    
+
     act = new QAction(tr("Find &Next"), this);
     act->setShortcut(tr("F3"));
     connect(act, &QAction::triggered, [=]() {
@@ -634,26 +634,26 @@ void Sqriptor::createUI()
     ADD_ACT
 
     menu = editMenu->addMenu(tr("&Bookmarks"));
-    
+
     act = new QAction(tr("Toggle &Bookmark"), this);
     act->setShortcut(tr("Ctrl+B"));
     connect(act, SIGNAL(triggered()), SLOT(toggleBookmark()));
     ADD_ACT
-    
+
     act = new QAction(tr("Goto &Next Bookmark"), this);
     act->setShortcut(tr("Alt+PgDown"));
     connect(act, SIGNAL(triggered()), SLOT(nextBookmark()));
     ADD_ACT
-    
+
     act = new QAction(tr("Goto &Previous Bookmark"), this);
     act->setShortcut(tr("Alt+PgUp"));
     connect(act, SIGNAL(triggered()), SLOT(prevBookmark()));
     ADD_ACT
-    
+
     menu = editMenu;
-    
+
     menu->addSeparator();
-    
+
     act = new QAction(tr("Toggle &Comment"), this);
     act->setShortcut(tr("Ctrl+D"));
     connect(act, SIGNAL(triggered()), SLOT(toggleComment()));
@@ -674,7 +674,7 @@ void Sqriptor::createUI()
         });
     m_wrapped->setChecked(config.wrap.words);
     menu->addAction(m_wrapped);
-    
+
     m_folds = new QAction(tr("&Folding"), this);
     m_folds->setShortcut(tr("F11"));
     m_folds->setCheckable(true);
@@ -713,7 +713,7 @@ void Sqriptor::createUI()
     act = new QAction(tr("&Settings..."), this);
     connect(act, SIGNAL(triggered()), SLOT(showSettings()));
     menu->addAction(act);
-    
+
     menu->addSeparator();
 
     act = new QAction(tr("&Flip colors"), this);
@@ -724,7 +724,7 @@ void Sqriptor::createUI()
         updatePalette();
     });
     menu->addAction(act);
-    
+
     QMenu *syntaxMenu = menuBar()->addMenu(tr("&Syntax"));
     m_syntaxActions = new QActionGroup(this);
 #define ADD_SYNTAX2(_SYN_, _COM_) act = m_syntaxActions->addAction(menu->addAction(#_SYN_ _COM_, [=](){setSyntax(Syntax::_SYN_);}));\
@@ -737,35 +737,35 @@ void Sqriptor::createUI()
     act->setCheckable(true);
     m_syntaxActions->addAction(act);
     syntaxMenu->addSeparator();
-    
+
     menu = syntaxMenu->addMenu(tr("&Code"));
     ADD_SYNTAX(CPP); ADD_SYNTAX(CSharp); ADD_SYNTAX(D); ADD_SYNTAX(Fortran);
     ADD_SYNTAX(Fortran77); ADD_SYNTAX(Java); ADD_SYNTAX(LISP); ADD_SYNTAX(NIM); ADD_SYNTAX(Pascal);
     ADD_SYNTAX(Python);
-    
+
     menu = syntaxMenu->addMenu(tr("&Script"));
     ADD_SYNTAX(AVS); ADD_SYNTAX(AWK); ADD_SYNTAX(Bash); ADD_SYNTAX(Batch); ADD_SYNTAX(CoffeeScript);
     ADD_SYNTAX(JavaScript); ADD_SYNTAX(Lua); ADD_SYNTAX(Perl);
     QAction *htmlSyntax = ADD_SYNTAX2(HTML, "\tid. PHP, JSP, ASP"); ADD_SYNTAX(PostScript);
     ADD_SYNTAX(Ruby); ADD_SYNTAX(TCL);
-    
+
     menu = syntaxMenu->addMenu(tr("Mark&up"));
     ADD_SYNTAX(CSS);  ADD_SYNTAX(Markdown2); act->setText("Markdown");
     menu->addAction(htmlSyntax);
     ADD_SYNTAX(TeX); ADD_SYNTAX(YAML);
-    
+
     menu = syntaxMenu->addMenu(tr("&Math"));
     ADD_SYNTAX2(IDL, "\tInteractive Data Language"); ADD_SYNTAX(Matlab); ADD_SYNTAX(Octave);
-    
+
     menu = syntaxMenu->addMenu(tr("&Buildsystem"));
     ADD_SYNTAX(CMake); ADD_SYNTAX(Makefile); ADD_SYNTAX(PkgBuild);
-    
+
     menu = syntaxMenu->addMenu(tr("&Config/Data"));
     ADD_SYNTAX(Diff); ADD_SYNTAX(FontConfig); ADD_SYNTAX2(Journal, "\tSystemD"); ADD_SYNTAX(JSON);
     ADD_SYNTAX2(PO, "\teg. gettext"); ADD_SYNTAX(POV);
     ADD_SYNTAX2(Properties, "\teg. ini syntax"); ADD_SYNTAX(SQL);
     ADD_SYNTAX(XML); ADD_SYNTAX(Xorg); ADD_SYNTAX(XorgLog);
-    
+
     menu = syntaxMenu->addMenu(tr("&Obscure && ancient stuff"));
     ADD_SYNTAX2(EDIFACT, "\tUN Data Interchange");
     ADD_SYNTAX2(Spice, "\tElectronic circuit simulator");
@@ -797,7 +797,7 @@ void Sqriptor::createUI()
         about->show();
     });
     menu->addAction(act);
-    
+
     act = new QAction(tr("&Syntax detection"), this);
     connect(act, &QAction::triggered, [=](){
         QString help =
@@ -820,7 +820,7 @@ void Sqriptor::createUI()
         syntaxHelp->show();
     });
     menu->addAction(act);
-    
+
     act = new QAction(tr("&Block selection"), this);
     connect(act, &QAction::triggered, [=](){
         QString help =
@@ -849,7 +849,7 @@ void Sqriptor::createUI()
         foreach(QsciCommand *cmd, doc->standardCommands()->commands()) {
             if (!cmd->key())
                 continue;
-            text += "<tr><td align=center style='font-weight:bold;'>" + QKeySequence(cmd->key()).toString() + 
+            text += "<tr><td align=center style='font-weight:bold;'>" + QKeySequence(cmd->key()).toString() +
                     "</td><td align=left>" + cmd->description() + "</td></tr>";
         }
         text += "</table></html>";
