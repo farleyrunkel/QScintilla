@@ -45,10 +45,10 @@ if(MACOS)
     endif()
 endif() 
 
-# Set include directory
-set(QSCINTILLA_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/src" CACHE PATH "QScintilla include directory")
+ # Set binrary directory
+set(QSCINTILLA_BINARY_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/bin" CACHE PATH "QScintilla binary directory")
 
-message(STATUS "QSCINTILLA_INCLUDE_DIRS: ${QSCINTILLA_INCLUDE_DIRS}")
+message(STATUS "QSCINTILLA_BINARY_DIRS: ${QSCINTILLA_BINARY_DIRS}")
  
 # Set library version
 set_target_properties(${TARGET_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
@@ -89,7 +89,7 @@ install(TARGETS ${TARGET_NAME}
 )
 
 # Install header files
-install(DIRECTORY ${QSCINTILLA_INCLUDE_DIRS}/Qsci
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/Qsci
     DESTINATION include
     FILES_MATCHING PATTERN "*.h"
 )

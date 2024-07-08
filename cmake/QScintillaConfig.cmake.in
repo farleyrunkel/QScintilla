@@ -3,14 +3,15 @@
 set(QScintilla_VERSION @PACKAGE_VERSION@)
 
 # Export include directories to the configuration file
-set(QSCINTILLA_INCLUDE_DIRS "@QSCINTILLA_INCLUDE_DIRS@")
+set(QScintilla_INCLUDE_DIRS @CMAKE_INSTALL_PREFIX@/include)
+
+set(QScintilla_BINARY_DIRS @CMAKE_INSTALL_PREFIX@/bin)
+
+set(QScintilla_LIBRARY_DIRS @CMAKE_INSTALL_PREFIX@/lib)
 
 # Declare dependencies for find_package(QScintilla)
 include(CMakeFindDependencyMacro)
 find_dependency(Qt${QT_VERSION_MAJOR} COMPONENTS Core Widgets Gui PrintSupport)
-
-# Set include directories
-set(QScintilla_INCLUDE_DIRS ${QSCINTILLA_INCLUDE_DIRS})
 
 # Set libraries
 set(QScintilla_LIBRARIES QScintilla::QScintilla)
