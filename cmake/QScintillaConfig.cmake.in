@@ -3,11 +3,11 @@
 set(QScintilla_VERSION @PACKAGE_VERSION@)
 
 # Export include directories to the configuration file
-set(QScintilla_INCLUDE_DIRS @CMAKE_INSTALL_PREFIX@/include)
+set(QScintilla_INCLUDE_DIR @CMAKE_INSTALL_PREFIX@/include)
 
-set(QScintilla_BINARY_DIRS @CMAKE_INSTALL_PREFIX@/bin)
+set(QScintilla_BINARY_DIR @CMAKE_INSTALL_PREFIX@/bin)
 
-set(QScintilla_LIBRARY_DIRS @CMAKE_INSTALL_PREFIX@/lib)
+set(QScintilla_LIBRARY_DIR @CMAKE_INSTALL_PREFIX@/lib)
 
 # Declare dependencies for find_package(QScintilla)
 include(CMakeFindDependencyMacro)

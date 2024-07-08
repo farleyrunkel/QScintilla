@@ -45,11 +45,11 @@ if(MACOS)
     endif()
 endif() 
 
- # Set binrary directory
-set(QSCINTILLA_BINARY_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/bin" CACHE PATH "QScintilla binary directory")
+# Set install directories
+set(QScintilla_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "QScintilla include directory")
+set(QScintilla_BINARY_DIR ${CMAKE_INSTALL_PREFIX}/bin CACHE PATH "QScintilla binary directory")
+set(QScintilla_LIBRARY_DIR ${CMAKE_INSTALL_PREFIX}/lib CACHE PATH "QScintilla library directory")
 
-message(STATUS "QSCINTILLA_BINARY_DIRS: ${QSCINTILLA_BINARY_DIRS}")
- 
 # Set library version
 set_target_properties(${TARGET_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 
