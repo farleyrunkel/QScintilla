@@ -45,11 +45,6 @@ if(MACOS)
     endif()
 endif() 
 
-# Set install directories
-set(QScintilla_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "QScintilla include directory")
-set(QScintilla_BINARY_DIR ${CMAKE_INSTALL_PREFIX}/bin CACHE PATH "QScintilla binary directory")
-set(QScintilla_LIBRARY_DIR ${CMAKE_INSTALL_PREFIX}/lib CACHE PATH "QScintilla library directory")
-
 # Set library version
 set_target_properties(${TARGET_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 
@@ -79,6 +74,9 @@ message(STATUS "Qt${QT_VERSION_MAJOR}PrintSupport_INCLUDE_DIRS: ${Qt${QT_VERSION
 if(NOT CMAKE_INSTALL_PREFIX)
     set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Install path" FORCE)
 endif()
+
+# Set include directories
+set(QScintilla_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src CACHE PATH "QScintilla include directory")
 
 # Install targets
 install(TARGETS ${TARGET_NAME}
